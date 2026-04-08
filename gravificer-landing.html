@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRAVIFICER // SIGNAL ARCHITECTURE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Exo+2:ital,wght@0,200;0,400;0,700;1,200&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #04060a;
+    --bg2:     #080c12;
+    --ink:     #f0f6ff;
+    --ink2:    #7ab0cc;
+    --cyan:    #00fff7;
+    --magenta: #ff003c;
+    --amber:   #ffe600;
+    --rule:    rgba(0,255,247,0.22);
+    --rule2:   rgba(255,0,60,0.2);
+    --shadow-cyan:  0 0 32px rgba(0,255,247,0.55), 0 0 8px rgba(0,255,247,0.9);
+    --shadow-mag:   0 0 32px rgba(255,0,60,0.45), 0 0 8px rgba(255,0,60,0.8);
+    --shadow-amber: 0 0 32px rgba(255,230,0,0.4), 0 0 8px rgba(255,230,0,0.7);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Exo 2', sans-serif;
+    cursor: crosshair;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* Grid overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,247,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,247,0.07) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* Scanlines */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 3px,
+      rgba(0,255,247,0.035) 3px, rgba(0,255,247,0.035) 4px
+    );
+    animation: scanDrift 8s linear infinite;
+    pointer-events: none; z-index: 1;
+  }
+
+  @keyframes scanDrift {
+    0%   { background-position: 0 0; }
+    100% { background-position: 0 40px; }
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 2;
+    padding: 60px 52px 52px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+
+  .system-id {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.45em;
+    color: var(--cyan);
+    opacity: 0.7;
+    margin-bottom: 28px;
+    text-shadow: 0 0 10px rgba(0,255,247,0.5);
+  }
+
+  .wordmark {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(42px, 10vw, 88px);
+    letter-spacing: 0.05em;
+    color: #ffffff;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  .wordmark span { color: var(--cyan); }
+
+  .wordmark::after {
+    content: attr(data-text);
+    position: absolute; left: 2px; top: 0;
+    color: var(--magenta); opacity: 0;
+    clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+    animation: glitch 5s infinite;
+    pointer-events: none;
+  }
+
+  @keyframes glitch {
+    0%,94%,100% { opacity: 0; transform: translateX(0); }
+    95% { opacity: 0.4; transform: translateX(-3px); }
+    97% { opacity: 0.4; transform: translateX(3px); }
+  }
+
+  .tagline {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(10px, 2vw, 13px);
+    letter-spacing: 0.4em;
+    color: var(--ink2);
+    text-transform: uppercase;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative; z-index: 2;
+    padding: 52px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .cell-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.35em;
+    color: var(--cyan);
+    text-shadow: 0 0 10px rgba(0,255,247,0.7);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  /* ── PHILOSOPHY ── */
+  .philosophy-text {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: clamp(16px, 3vw, 26px);
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 760px;
+  }
+
+  .philosophy-text em {
+    font-style: normal;
+    color: var(--cyan);
+    text-shadow: 0 0 12px rgba(0,255,247,0.6);
+  }
+
+  .philosophy-text strong {
+    color: var(--magenta);
+    text-shadow: 0 0 12px rgba(255,0,60,0.6);
+    font-weight: 700;
+  }
+
+  /* ── PILLARS ── */
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule2);
+    border: 1px solid var(--rule2);
+    margin-top: 32px;
+  }
+
+  .pillar {
+    background: var(--bg2);
+    padding: 36px 28px;
+    transition: background 0.3s;
+  }
+
+  .pillar:hover { background: rgba(0,255,247,0.03); }
+
+  .pillar-icon {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    margin-bottom: 16px;
+  }
+
+  .pillar-icon.art     { color: var(--magenta); text-shadow: var(--shadow-mag); }
+  .pillar-icon.energy  { color: var(--amber);   text-shadow: var(--shadow-amber); }
+  .pillar-icon.know    { color: var(--cyan);     text-shadow: var(--shadow-cyan); }
+  .pillar-icon.pattern { color: var(--cyan);     text-shadow: var(--shadow-cyan); }
+
+  .pillar h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.06em;
+    color: #ffffff;
+    margin-bottom: 12px;
+  }
+
+  .pillar p {
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 200;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink2);
+  }
+
+  /* ── AXIOM BAR ── */
+  .axiom {
+    position: relative;
+    border: 1px solid rgba(0,255,247,0.2);
+    background: rgba(0,255,247,0.025);
+    padding: 30px 40px;
+    margin-top: 40px;
+  }
+
+  .axiom .corner {
+    position: absolute;
+    width: 18px; height: 18px;
+  }
+  .axiom .corner.tl { top: -1px;  left: -1px;  border-top: 2px solid var(--cyan); border-left: 2px solid var(--cyan); }
+  .axiom .corner.tr { top: -1px;  right: -1px; border-top: 2px solid var(--cyan); border-right: 2px solid var(--cyan); }
+  .axiom .corner.bl { bottom: -1px; left: -1px;  border-bottom: 2px solid var(--cyan); border-left: 2px solid var(--cyan); }
+  .axiom .corner.br { bottom: -1px; right: -1px; border-bottom: 2px solid var(--cyan); border-right: 2px solid var(--cyan); }
+
+  .axiom-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.45em;
+    color: var(--cyan);
+    opacity: 0.55;
+    margin-bottom: 12px;
+  }
+
+  .axiom p {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: clamp(13px, 2.2vw, 20px);
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  .axiom p span.c { color: var(--cyan);    text-shadow: 0 0 10px rgba(0,255,247,0.6); }
+  .axiom p span.m { color: var(--magenta); text-shadow: 0 0 10px rgba(255,0,60,0.6); }
+
+  /* ── TRANSMISSIONS (RSS FEED) ── */
+  .feed-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-top: 32px;
+  }
+
+  .feed-card {
+    background: var(--bg2);
+    padding: 32px 28px;
+    text-decoration: none;
+    display: block;
+    border-left: 3px solid transparent;
+    transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    cursor: crosshair;
+  }
+
+  .feed-card:hover {
+    background: rgba(0,255,247,0.03);
+    border-left-color: var(--cyan);
+    box-shadow: inset 0 0 20px rgba(0,255,247,0.04);
+  }
+
+  .feed-date {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: rgba(0,255,247,0.5);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .feed-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    color: #ffffff;
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .feed-excerpt {
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 200;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink2);
+  }
+
+  .feed-signal {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--magenta);
+    margin-top: 16px;
+    opacity: 0.7;
+  }
+
+  .feed-loading {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--cyan);
+    opacity: 0.6;
+    padding: 40px 0;
+    text-align: center;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  .feed-error {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--magenta);
+    opacity: 0.7;
+    padding: 20px 0;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 0.3; }
+    50%      { opacity: 0.8; }
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    text-align: center;
+    padding: 64px 52px;
+  }
+
+  .cta-btn {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    background: transparent;
+    border: 1px solid var(--cyan);
+    padding: 22px 52px;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 0 16px rgba(0,255,247,0.3), inset 0 0 16px rgba(0,255,247,0.05);
+    transition: all 0.3s;
+    cursor: crosshair;
+  }
+
+  .cta-btn:hover {
+    background: var(--cyan);
+    color: var(--bg);
+    box-shadow: var(--shadow-cyan);
+  }
+
+  .cta-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--ink2);
+    opacity: 0.6;
+    margin-top: 20px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 2;
+    padding: 32px 52px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-id {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--ink2);
+    opacity: 0.5;
+  }
+
+  .footer-status {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--cyan);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: var(--shadow-cyan);
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%,100% { opacity: 1; }
+    50%      { opacity: 0.2; }
+  }
+
+  /* ── REVEAL ANIMATION ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 680px) {
+    header, section { padding: 36px 24px; }
+    .pillars-grid { grid-template-columns: 1fr 1fr; }
+    .cta-section { padding: 48px 24px; }
+    footer { padding: 24px; flex-direction: column; text-align: center; }
+  }
+
+  @media (max-width: 420px) {
+    .pillars-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="system-id reveal">SYS::GRAVIFICER · TX-NODE · ACTIVE</div>
+  <div class="wordmark reveal" data-text="GRAVIFICER">GRAVI<span>FICER</span></div>
+  <div class="tagline reveal">TRANSFORM · CLARIFY · REFRAME · TRANSMIT</div>
+</header>
+
+<!-- PHILOSOPHY -->
+<section>
+  <div class="cell-label reveal">// SIGNAL · 001 · PHILOSOPHY</div>
+  <p class="philosophy-text reveal">
+    Every output must <em>clarify</em>, <em>reveal</em>, or <em>reframe</em> —
+    otherwise it is <strong>noise</strong>.<br><br>
+    GRAVIFICER transforms art, energy, and knowledge into
+    intentional signals that shape perception.
+    Simplicity carries power. Structure carries meaning.
+    <em>Imagination is a deliberate tool.</em>
+  </p>
+
+  <div class="axiom reveal">
+    <span class="corner tl"></span>
+    <span class="corner tr"></span>
+    <span class="corner bl"></span>
+    <span class="corner br"></span>
+    <div class="axiom-label">// CORE TRANSMISSION</div>
+    <p>
+      <span class="c">Signal</span> is what remains after
+      <span class="m">noise</span> is removed.
+      Everything else is architecture.
+    </p>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section>
+  <div class="cell-label reveal">// SIGNAL · 002 · MATERIAL ARCHITECTURE</div>
+
+  <div class="pillars-grid reveal">
+    <div class="pillar">
+      <div class="pillar-icon art">// ART</div>
+      <h3>Art</h3>
+      <p>The form that carries the signal. Visual language, composition, and the deliberate use of aesthetics to shape perception before a word is read.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon energy">// ENERGY</div>
+      <h3>Energy</h3>
+      <p>The force behind the signal. Momentum, intent, and the directed will that separates transmission from decoration.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon know">// KNOWLEDGE</div>
+      <h3>Knowledge</h3>
+      <p>Raw material to reshape, not repeat. Every concept is an input — the Gravificer's role is to transform it into a more useful form.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon pattern">// PATTERNS</div>
+      <h3>Patterns</h3>
+      <p>The sharpening vector. Patterns run through all three materials — equal raw input and the lens that reveals structure in everything.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSMISSIONS (RSS FEED) -->
+<section>
+  <div class="cell-label reveal">// SIGNAL · 003 · LATEST TRANSMISSIONS</div>
+  <div id="feed-container">
+    <div class="feed-loading">// ACQUIRING SIGNAL ···</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section reveal">
+  <a class="cta-btn" href="https://quirkyflashchronicles.com/category/studio-bits-of-gravity/gravificer/" target="_blank">
+    ENTER FULL ARCHIVE ›
+  </a>
+  <div class="cta-sub">ALL TRANSMISSIONS · GRAVIFICER CATEGORY</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-id">GRAVIFICER // TX-NODE-001 // SIGNAL ARCHITECTURE</div>
+  <div class="footer-status">
+    <span class="status-dot"></span>
+    SIGNAL ACTIVE
+  </div>
+</footer>
+
+<script>
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── RSS FEED ──
+const FEED_URL = 'https://quirkyflashchronicles.com/category/studio-bits-of-gravity/gravificer/feed/';
+const PROXY    = 'https://api.rss2json.com/v1/api.json?rss_url=';
+const MAX_POSTS = 6;
+
+async function loadFeed() {
+  const container = document.getElementById('feed-container');
+  try {
+    const res  = await fetch(PROXY + encodeURIComponent(FEED_URL));
+    const data = await res.json();
+
+    if (!data.items || data.items.length === 0) {
+      container.innerHTML = '<p class="feed-error">// NO SIGNAL DETECTED</p>';
+      return;
+    }
+
+    const items = data.items.slice(0, MAX_POSTS);
+    const grid  = document.createElement('div');
+    grid.className = 'feed-grid';
+
+    items.forEach(item => {
+      const date = new Date(item.pubDate).toLocaleDateString('en-US', {
+        year: 'numeric', month: 'short', day: 'numeric'
+      }).toUpperCase();
+
+      // Strip HTML tags from excerpt
+      const tmp = document.createElement('div');
+      tmp.innerHTML = item.description || '';
+      const raw = tmp.textContent || tmp.innerText || '';
+      const excerpt = raw.trim().slice(0, 120) + (raw.length > 120 ? '···' : '');
+
+      const card = document.createElement('a');
+      card.className   = 'feed-card';
+      card.href        = item.link;
+      card.target      = '_blank';
+      card.rel         = 'noopener noreferrer';
+      card.innerHTML   = `
+        <div class="feed-date">${date}</div>
+        <div class="feed-title">${item.title}</div>
+        <div class="feed-excerpt">${excerpt}</div>
+        <div class="feed-signal">// READ TRANSMISSION ›</div>
+      `;
+      grid.appendChild(card);
+    });
+
+    container.innerHTML = '';
+    container.appendChild(grid);
+
+    // Animate cards in
+    grid.querySelectorAll('.feed-card').forEach((card, i) => {
+      card.style.opacity   = '0';
+      card.style.transform = 'translateY(16px)';
+      setTimeout(() => {
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease, border-color 0.3s, background 0.3s, box-shadow 0.3s';
+        card.style.opacity    = '1';
+        card.style.transform  = 'translateY(0)';
+      }, i * 80);
+    });
+
+  } catch (err) {
+    container.innerHTML = `<p class="feed-error">// SIGNAL INTERRUPTED · ${err.message}</p>`;
+  }
+}
+
+loadFeed();
+</script>
+</body>
+</html>
