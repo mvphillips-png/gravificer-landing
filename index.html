@@ -427,9 +427,53 @@
   @media (max-width: 420px) {
     .pillars-grid { grid-template-columns: 1fr; }
   }
+
+  /* ── BACK BUTTON ── */
+  .back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--cyan);
+    background: rgba(4,6,10,0.85);
+    border: 1px solid rgba(0,255,247,0.3);
+    padding: 10px 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    backdrop-filter: blur(4px);
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .back-btn::before {
+    content: '←';
+    font-size: 13px;
+  }
+
+  .back-btn:hover {
+    background: var(--cyan);
+    color: var(--bg);
+    border-color: var(--cyan);
+    box-shadow: var(--shadow-cyan);
+  }
+
+  @media (max-width: 480px) {
+    .back-btn {
+      font-size: 10px;
+      padding: 8px 12px;
+    }
+  }
 </style>
 </head>
 <body>
+
+<!-- BACK BUTTON -->
+<a class="back-btn" href="https://quirkyflashchronicles.com" target="_self">QFC</a>
 
 <!-- HEADER -->
 <header>
