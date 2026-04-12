@@ -475,6 +475,126 @@
       left: 20px;
     }
   }
+
+  /* ── INSTRUMENT NETWORK ── */
+  .instrument-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+
+  .instrument-card {
+    background: var(--bg2);
+    padding: 36px 28px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-left: 3px solid transparent;
+    transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    cursor: crosshair;
+  }
+
+  .instrument-card:hover {
+    background: rgba(0,255,247,0.03);
+  }
+
+  .instrument-card:nth-child(1):hover { border-left-color: var(--cyan); box-shadow: inset 0 0 20px rgba(0,255,247,0.04); }
+  .instrument-card:nth-child(2):hover { border-left-color: var(--amber); box-shadow: inset 0 0 20px rgba(255,230,0,0.04); }
+  .instrument-card:nth-child(3):hover { border-left-color: var(--magenta); box-shadow: inset 0 0 20px rgba(255,0,60,0.04); }
+
+  .inst-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .inst-icon {
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .inst-icon.cyan    { color: var(--cyan);    text-shadow: var(--shadow-cyan); }
+  .inst-icon.amber   { color: var(--amber);   text-shadow: var(--shadow-amber); }
+  .inst-icon.magenta { color: var(--magenta); text-shadow: var(--shadow-mag); }
+
+  .inst-status {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+  }
+
+  .inst-status.cyan    { color: var(--cyan); }
+  .inst-status.amber   { color: var(--amber); }
+  .inst-status.magenta { color: var(--magenta); }
+
+  .inst-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .inst-label.cyan    { color: var(--cyan);    opacity: 0.7; }
+  .inst-label.amber   { color: var(--amber);   opacity: 0.7; }
+  .inst-label.magenta { color: var(--magenta); opacity: 0.7; }
+
+  .inst-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+    margin-bottom: 14px;
+  }
+
+  .inst-desc {
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 200;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink2);
+    margin-bottom: 20px;
+    flex: 1;
+  }
+
+  .inst-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .inst-tools span {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--ink2);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 4px 8px;
+    text-transform: uppercase;
+  }
+
+  .inst-cta {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    margin-top: auto;
+  }
+
+  .inst-cta         { color: var(--cyan); }
+  .inst-cta.amber   { color: var(--amber); }
+  .inst-cta.magenta { color: var(--magenta); }
+
+  @media (max-width: 900px) {
+    .instrument-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -551,6 +671,89 @@
   </div>
 </section>
 
+
+<!-- INSTRUMENT NETWORK -->
+<section>
+  <div class="cell-label reveal">// SIGNAL · 004 · INSTRUMENT NETWORK</div>
+
+  <p class="reveal" style="font-family:'Exo 2',sans-serif; font-weight:200; font-size:15px; line-height:1.8; color:var(--ink2); max-width:720px; margin-bottom:40px;">
+    The Gravificer system extends beyond the archive. These instruments were built to make the philosophy operational — tools that decode, classify, train, and reframe in real time.
+  </p>
+
+  <div class="instrument-grid reveal">
+
+    <!-- SIGNALS HUB -->
+    <a class="instrument-card" href="https://signals.quirkyflashchronicles.com/" target="_blank" rel="noopener noreferrer">
+      <div class="inst-header">
+        <div class="inst-icon cyan">◈</div>
+        <div class="inst-status cyan">● LIVE</div>
+      </div>
+      <div class="inst-label cyan">// INSTRUMENT HUB · 01–06</div>
+      <h3 class="inst-title">Signals Hub</h3>
+      <p class="inst-desc">Six precision instruments for turning any message, idea, or system into a clear signal. Built because the philosophy needed to become practice — not just language.</p>
+      <div class="inst-tools">
+        <span>Signal Interpreter</span>
+        <span>Noise Classifier</span>
+        <span>Signal Architect</span>
+        <span>Lens Engine</span>
+        <span>Faction Scanner</span>
+        <span>Pattern Extractor</span>
+      </div>
+      <div class="inst-cta">ENTER HUB ›</div>
+    </a>
+
+    <!-- REALITY INTERFACE TRAINER -->
+    <a class="instrument-card" href="https://trainer.quirkyflashchronicles.com/" target="_blank" rel="noopener noreferrer">
+      <div class="inst-header">
+        <div class="inst-icon amber">◉</div>
+        <div class="inst-status amber">● LIVE</div>
+      </div>
+      <div class="inst-label amber">// INSTRUMENT 07</div>
+      <h3 class="inst-title">Reality Interface Trainer</h3>
+      <p class="inst-desc">Humans don't fail from lack of information — they fail from misweighting what matters. An AI-powered scenario trainer across four interfaces: Mind, Body, Choice, and Value.</p>
+      <div class="inst-tools">
+        <span>Psychology</span>
+        <span>Health Sciences</span>
+        <span>Behavioral Economics</span>
+        <span>Economics</span>
+      </div>
+      <div class="inst-cta amber">ENTER TRAINER ›</div>
+    </a>
+
+    <!-- SIGNAL INTERPRETER STANDALONE -->
+    <a class="instrument-card" href="https://quirkyflashchronicles.com/2026/04/10/gravificer-system/" target="_blank" rel="noopener noreferrer">
+      <div class="inst-header">
+        <div class="inst-icon magenta">◧</div>
+        <div class="inst-status magenta">● LIVE</div>
+      </div>
+      <div class="inst-label magenta">// STANDALONE · SIGNAL INTERPRETER</div>
+      <h3 class="inst-title">Signal Interpreter</h3>
+      <p class="inst-desc">A standalone deployment of the Signal Interpreter embedded directly in the Gravificer transmission archive. Read any message through the four Gravificer materials — Art, Energy, Knowledge, Patterns.</p>
+      <div class="inst-tools">
+        <span>Decode</span>
+        <span>Classify</span>
+        <span>Map</span>
+        <span>Reframe</span>
+      </div>
+      <div class="inst-cta magenta">OPEN INTERPRETER ›</div>
+    </a>
+
+  </div>
+
+  <div class="axiom reveal" style="margin-top:48px;">
+    <span class="corner tl"></span>
+    <span class="corner tr"></span>
+    <span class="corner bl"></span>
+    <span class="corner br"></span>
+    <div class="axiom-label">// WHY WE BUILD</div>
+    <p>
+      Philosophy without tools is <span class="m">decoration</span>.
+      Every instrument exists to make the signal
+      <span class="c">operational</span> — not just visible.
+    </p>
+  </div>
+</section>
+
 <!-- CTA -->
 <div class="cta-section reveal">
   <a class="cta-btn" href="https://quirkyflashchronicles.com/category/studio-bits-of-gravity/gravificer/" target="_blank">
@@ -585,21 +788,31 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // ── RSS FEED ──
 const FEED_URL = 'https://quirkyflashchronicles.com/category/studio-bits-of-gravity/gravificer/feed/';
-const PROXY    = 'https://api.rss2json.com/v1/api.json?rss_url=';
-const MAX_POSTS = 9;
+const MAX_POSTS = 6;
 
 async function loadFeed() {
   const container = document.getElementById('feed-container');
   try {
-    const res  = await fetch(PROXY + encodeURIComponent(FEED_URL));
+    const proxyUrl = 'https://allorigins.win/get?disableCache=true&url=' + encodeURIComponent(FEED_URL);
+    const res  = await fetch(proxyUrl);
     const data = await res.json();
 
-    if (!data.items || data.items.length === 0) {
+    // Parse the XML string
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(data.contents, 'text/xml');
+    const entries = Array.from(xml.querySelectorAll('item'));
+
+    if (!entries || entries.length === 0) {
       container.innerHTML = '<p class="feed-error">// NO SIGNAL DETECTED</p>';
       return;
     }
 
-    const items = data.items.slice(0, MAX_POSTS);
+    const items = entries.slice(0, MAX_POSTS).map(item => ({
+      title:      item.querySelector('title')?.textContent || '',
+      link:       item.querySelector('link')?.textContent || '',
+      pubDate:    item.querySelector('pubDate')?.textContent || '',
+      description: item.querySelector('description')?.textContent || ''
+    }));
     const grid  = document.createElement('div');
     grid.className = 'feed-grid';
 
