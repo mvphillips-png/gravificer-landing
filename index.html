@@ -663,18 +663,9 @@
   </div>
 </section>
 
-<!-- TRANSMISSIONS (RSS FEED) -->
-<section>
-  <div class="cell-label reveal">// SIGNAL · 003 · LATEST TRANSMISSIONS</div>
-  <div id="feed-container">
-    <div class="feed-loading">// ACQUIRING SIGNAL ···</div>
-  </div>
-</section>
-
-
 <!-- INSTRUMENT NETWORK -->
 <section>
-  <div class="cell-label reveal">// SIGNAL · 004 · INSTRUMENT NETWORK</div>
+  <div class="cell-label reveal">// SIGNAL · 003 · INSTRUMENT NETWORK</div>
 
   <p class="reveal" style="font-family:'Exo 2',sans-serif; font-weight:200; font-size:15px; line-height:1.8; color:var(--ink2); max-width:720px; margin-bottom:40px;">
     The Gravificer system extends beyond the archive. These instruments were built to make the philosophy operational — tools that decode, classify, train, and reframe in real time.
@@ -754,6 +745,15 @@
   </div>
 </section>
 
+<!-- TRANSMISSIONS (RSS FEED) -->
+<section>
+  <div class="cell-label reveal">// SIGNAL · 004 · LATEST TRANSMISSIONS</div>
+  <div id="feed-container">
+    <div class="feed-loading">// ACQUIRING SIGNAL ···</div>
+  </div>
+</section>
+
+
 <!-- CTA -->
 <div class="cta-section reveal">
   <a class="cta-btn" href="https://quirkyflashchronicles.com/category/studio-bits-of-gravity/gravificer/" target="_blank">
@@ -788,7 +788,7 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // ── RSS FEED ──
 const FEED_URL = 'https://quirkyflashchronicles.com/category/studio-bits-of-gravity/gravificer/feed/';
-const MAX_POSTS = 9;
+const MAX_POSTS = 6;
 
 async function loadFeed() {
   const container = document.getElementById('feed-container');
