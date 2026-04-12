@@ -793,8 +793,8 @@ const MAX_POSTS = 6;
 async function loadFeed() {
   const container = document.getElementById('feed-container');
   try {
-    // Fetch raw RSS directly via corsproxy.io
-    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(FEED_URL);
+    // Fetch raw RSS via htmldriven proxy
+    const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(FEED_URL);
     const res  = await fetch(proxyUrl);
     const text = await res.text();
 
