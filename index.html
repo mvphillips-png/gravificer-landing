@@ -793,13 +793,14 @@ const MAX_POSTS = 6;
 async function loadFeed() {
   const container = document.getElementById('feed-container');
   try {
-    const proxyUrl = 'https://allorigins.win/get?disableCache=true&url=' + encodeURIComponent(FEED_URL);
+    // Fetch raw RSS directly via corsproxy.io
+    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(FEED_URL);
     const res  = await fetch(proxyUrl);
-    const data = await res.json();
+    const text = await res.text();
 
     // Parse the XML string
     const parser = new DOMParser();
-    const xml = parser.parseFromString(data.contents, 'text/xml');
+    const xml = parser.parseFromString(text, 'text/xml');
     const entries = Array.from(xml.querySelectorAll('item'));
 
     if (!entries || entries.length === 0) {
