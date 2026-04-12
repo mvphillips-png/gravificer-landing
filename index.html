@@ -793,32 +793,16 @@ const MAX_POSTS = 6;
 async function loadFeed() {
   const container = document.getElementById('feed-container');
   try {
-    // Fetch raw RSS via htmldriven proxy
-    const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(FEED_URL);
+    const proxyUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(FEED_URL);
     const res  = await fetch(proxyUrl);
-    const text = await res.text();
+    const data = await res.json();
 
-    // Parse the XML string
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(text, 'text/xml');
-
-    // Try both 'item' (RSS) and 'entry' (Atom)
-    let entries = Array.from(xml.querySelectorAll('item'));
-    if (entries.length === 0) entries = Array.from(xml.querySelectorAll('entry'));
-
-    if (!entries || entries.length === 0) {
-      // Show debug info to diagnose
-      const preview = text.substring(0, 300).replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      container.innerHTML = '<p class="feed-error">// NO SIGNAL DETECTED</p><pre style="color:rgba(0,255,247,0.4);font-size:10px;margin-top:12px;white-space:pre-wrap;">' + preview + '</pre>';
+    if (!data.items || data.items.length === 0) {
+      container.innerHTML = '<p class="feed-error">// NO SIGNAL DETECTED</p>';
       return;
     }
 
-    const items = entries.slice(0, MAX_POSTS).map(item => ({
-      title:      item.querySelector('title')?.textContent || '',
-      link:       item.querySelector('link')?.textContent || '',
-      pubDate:    item.querySelector('pubDate')?.textContent || '',
-      description: item.querySelector('description')?.textContent || ''
-    }));
+    const items = data.items.slice(0, MAX_POSTS);
     const grid  = document.createElement('div');
     grid.className = 'feed-grid';
 
